@@ -1,0 +1,153 @@
+#könyvtárak importálása:
+from graphics import *
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+import paho.mqtt.client as mqtt
+
+#gép adatai
+x_g=440 #[-250;190]
+x_0=-250
+y_g=360 #[-260;100]
+y_0=-260
+z_g=110 #[0;-110]
+z_0=0
+
+xd_0=-430
+zd_0=635
+
+#rajzterület, pixel arány (1 esetén teljes rajzterület)
+a=1
+
+
+
+
+#mqtt szerverre való csatlakozás
+
+# The callback for when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print("Connected successfully")
+    else:
+        print("Connect returned result code: " + str(rc))
+
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print("Received message: " + msg.topic + " -> " + msg.payload.decode("utf-8"))
+
+# create the client
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+
+# enable TLS
+client.tls_set(tls_version=mqtt.ssl.PROTOCOL_TLS)
+
+# set username and password
+client.username_pw_set("mqtt", "maxwhere123")
+
+# connect to HiveMQ Cloud on port 8883
+client.connect("mqtt.maxwhere.com", 8883)
+
+# publish "Hello" to the topic "my/test/topic"
+#client.publish("my/test/topic", "Hello")
+
+#szövegfájl megnyitása,és sorainak megszámlálása
+be="kiber.txt"
+n=0
+file = open(be,"r") 
+for line in file:
+    n+=1
+file.close()
+print(n," lépés a rajzolás.")
+
+#szövegfájl beolvasása tömmbe, és az adatok használhatóvá alakítása
+kimenet=np.ones((n,2))
+file = open(be,"r") 
+n=-1
+up=False
+x_e=0
+y_e=0
+z_e=-200
+
+for line in file:
+    n+=1
+    if n>0:
+        sor = line.replace(']','').replace('[','').replace('\n','').replace(' ','').replace('"','').split(",")
+        #print(sor)
+        if sor[0]=='-1' and sor[1]=='0':
+            for z in range(0,100):
+                client.publish("CNC_digital_twin/mcoordinates",'{"x":'+ str(x_e) + ',"y":' + str(y_e) + ',"z":' + str(-z)+'}')
+                z_e=-z
+                up=False
+                time.sleep(0.01)
+                
+        elif sor[0]=='0' and sor[1]=='-1':
+            for z in range(0,100):
+                client.publish("CNC_digital_twin/mcoordinates",'{"x":'+ str(x_e) + ',"y":' + str(y_e) + ',"z":' + str(-100+z)+'}')
+                z_e=z-100
+                up=True
+                time.sleep(0.01)
+                
+        elif up==True:
+            if (int(sor[1])*x_a+x_0)<x_e:
+                x_i=-0.4
+            else:
+                x_i=+0.4
+                
+            if (int(sor[0])*y_a+y_0)<y_e:
+                y_i=-0.4
+            else:
+                y_i=+0.4
+                
+            x_ready=False
+            y_ready=False
+            ready=False
+                
+            while ready==False:
+                if round((int(sor[1])*x_a)+x_0)!=round(x_e):
+                    x_e+=x_i
+                    #client.publish("CNC_digital_twin/coordinates/x",'{"x":'+ str(x_e) + ',"y":' + str(30) + ',"z":' + str(-200)+'}' )
+                    #print("x_e:" + str(x_e))
+                else:
+                    x_ready=True
+                    #print("x_kész!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                if round((int(sor[0])*y_a)+y_0)!=round(y_e):
+                    y_e+=y_i
+                    #client.publish("CNC_digital_twin/coordinates/y",'{"x":'+ str(0) + ',"y":' + str(y_e) + ',"z":' + str(0)+'}')
+                    #print("y_e:" + str(round(y_e)) + " y_i: " + str(y_i) + " sor: " + str(round(int(sor[1])*y_a+y_0)) + " y_kész=" + str(y_ready) )
+                else:
+                    y_ready=True
+                    #print("y_kész!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                
+                client.publish("CNC_digital_twin/mcoordinates",'{"x":'+ str(round(x_e,3)) + ',"y":' + str(round(y_e,3)) + ',"z":' + str(round(z_e,3))+'}' )
+                
+                ready= x_ready and y_ready
+                
+                time.sleep(0.005)
+                    
+            
+            
+                
+        else:
+            client.publish("CNC_digital_twin/mcoordinates",'{"x":'+ str(round((int(sor[1])*x_a)+x_0,4)) + ',"y":' + str(round((int(sor[0])*y_a)+y_0,4)) + ',"z":' + str(z_e)+'}' )
+            if n%20==0:
+                client.publish("CNC_digital_twin/dcoordinates",'{"x":'+ str(round((int(sor[1])*x_a)+xd_0,4)) + ',"y":' + str(305) + ',"z":' + str(round((int(sor[0])*(-y_a))+zd_0,4))+'}' )
+            #client.publish("CNC_digital_twin/coordinates/y",'{"x":'+ str(0) + ',"y":' + str(round((int(sor[1])*y_a)+y_0,4)) + ',"z":' + str(0)+'}')
+            x_e=int(round((int(sor[1])*x_a)+x_0,1))
+            #print("x:"+str(round((int(sor[0])*x_a)+x_0,1)))
+            y_e=int(round((int(sor[0])*y_a)+y_0,1))
+            #print("y:"+str(round((int(sor[1])*y_a)+x_0,1)))
+        time.sleep(0.005)
+        
+    else:
+        inic=line.replace('\n','').split(";")
+        if(int(inic[0])>int(inic[1])):
+            x_a=x_g/int(inic[1])/a
+            y_a=x_a
+        else:
+            y_a=y_g/int(inic[0])/a
+            x_a=y_a
+        #print("x irányú nagyítás: "+str(x_a)+" y irányú nagyítás: "+str(y_a))
+file.close()
