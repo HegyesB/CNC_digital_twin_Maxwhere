@@ -1,0 +1,654 @@
+[
+    {
+        "id": "64e6b055.b1547",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1b41b6f3.b4cee9",
+        "type": "mqtt in",
+        "z": "64e6b055.b1547",
+        "name": "",
+        "topic": "CNC_digital_twin/dcoordinates",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "c065e0e7.41d95",
+        "x": 150,
+        "y": 680,
+        "wires": [
+            [
+                "9f8eee46.d450c"
+            ]
+        ]
+    },
+    {
+        "id": "86bc4f8a.52c34",
+        "type": "add-mesh",
+        "z": "64e6b055.b1547",
+        "settings": {
+            "create": "input",
+            "options": {
+                "url": "kocka.mesh",
+                "position": {
+                    "x": -600,
+                    "y": 100,
+                    "z": 100
+                },
+                "orientation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                },
+                "scale": {
+                    "x": 50,
+                    "y": 50,
+                    "z": 50
+                },
+                "autophysical": true,
+                "physical": {
+                    "raycast": true
+                }
+            },
+            "displayName": "add mesh",
+            "save": false
+        },
+        "x": 680,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f8eee46.d450c",
+        "type": "function",
+        "z": "64e6b055.b1547",
+        "name": "Position",
+        "func": "msg.payload={\"url\":\"kocka.mesh\",\"scale\":1,\"position\":msg.payload}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 420,
+        "y": 680,
+        "wires": [
+            [
+                "86bc4f8a.52c34",
+                "8a7db154.57391"
+            ]
+        ]
+    },
+    {
+        "id": "127facdd.691883",
+        "type": "comment",
+        "z": "64e6b055.b1547",
+        "name": "Model",
+        "info": "",
+        "x": 80,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "8b31f84b.ceff98",
+        "type": "add-mesh-hierarchy",
+        "z": "64e6b055.b1547",
+        "parent": {
+            "id": "parent",
+            "text": "Parent",
+            "icon": "fa fa-certificate",
+            "li_attr": {
+                "id": "parent"
+            },
+            "a_attr": {
+                "href": "#",
+                "id": "parent_anchor"
+            },
+            "state": {
+                "loaded": true,
+                "opened": true,
+                "selected": true,
+                "disabled": false
+            },
+            "data": {
+                "options": {
+                    "url": "alap.mesh",
+                    "id": "Alap",
+                    "position": {
+                        "x": -300,
+                        "y": 500,
+                        "z": 500
+                    },
+                    "orientation": {
+                        "x": -0.7071067811865476,
+                        "y": 0,
+                        "z": 0,
+                        "w": 0.7071067811865476
+                    },
+                    "scale": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 1
+                    },
+                    "autophysical": true,
+                    "physical": {
+                        "raycast": true
+                    }
+                }
+            },
+            "children": [
+                {
+                    "id": "j1_2",
+                    "text": "New node",
+                    "icon": "fa fa-dot-circle-o",
+                    "li_attr": {
+                        "id": "j1_2"
+                    },
+                    "a_attr": {
+                        "href": "#",
+                        "id": "j1_2_anchor"
+                    },
+                    "state": {
+                        "loaded": true,
+                        "opened": true,
+                        "selected": false,
+                        "disabled": false
+                    },
+                    "data": {
+                        "options": {
+                            "url": "X-tengely.001.mesh",
+                            "id": "X",
+                            "position": {
+                                "x": 0,
+                                "y": 30,
+                                "z": -200
+                            },
+                            "orientation": {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0,
+                                "w": 1
+                            },
+                            "scale": {
+                                "x": 1,
+                                "y": 1,
+                                "z": 1
+                            },
+                            "autophysical": true,
+                            "physical": {
+                                "raycast": true
+                            }
+                        }
+                    },
+                    "children": [
+                        {
+                            "id": "j1_3",
+                            "text": "New node",
+                            "icon": "fa fa-dot-circle-o",
+                            "li_attr": {
+                                "id": "j1_3"
+                            },
+                            "a_attr": {
+                                "href": "#",
+                                "id": "j1_3_anchor"
+                            },
+                            "state": {
+                                "loaded": true,
+                                "opened": true,
+                                "selected": false,
+                                "disabled": false
+                            },
+                            "data": {
+                                "options": {
+                                    "url": "Y-tengely.mesh",
+                                    "id": "Y",
+                                    "position": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "z": 0
+                                    },
+                                    "orientation": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "z": 0,
+                                        "w": 1
+                                    },
+                                    "scale": {
+                                        "x": 1,
+                                        "y": 1,
+                                        "z": 1
+                                    },
+                                    "autophysical": true,
+                                    "physical": {
+                                        "raycast": true
+                                    }
+                                }
+                            },
+                            "children": [
+                                {
+                                    "id": "j1_4",
+                                    "text": "New node",
+                                    "icon": "fa fa-dot-circle-o",
+                                    "li_attr": {
+                                        "id": "j1_4"
+                                    },
+                                    "a_attr": {
+                                        "href": "#",
+                                        "id": "j1_4_anchor"
+                                    },
+                                    "state": {
+                                        "loaded": true,
+                                        "opened": false,
+                                        "selected": false,
+                                        "disabled": false
+                                    },
+                                    "data": {
+                                        "options": {
+                                            "url": "Z-tengely-2.mesh",
+                                            "id": "Z",
+                                            "position": {
+                                                "x": 0,
+                                                "y": 0,
+                                                "z": 0
+                                            },
+                                            "orientation": {
+                                                "x": 0,
+                                                "y": 0,
+                                                "z": 0,
+                                                "w": 1
+                                            },
+                                            "scale": {
+                                                "x": 1,
+                                                "y": 1,
+                                                "z": 1
+                                            },
+                                            "autophysical": true,
+                                            "physical": {
+                                                "raycast": true
+                                            }
+                                        }
+                                    },
+                                    "children": [],
+                                    "type": "child"
+                                }
+                            ],
+                            "type": "child"
+                        }
+                    ],
+                    "type": "child"
+                }
+            ],
+            "type": "root"
+        },
+        "name": "CNC",
+        "save": false,
+        "create": "init",
+        "x": 190,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc77930d.0ec7d",
+        "type": "set-position",
+        "z": "64e6b055.b1547",
+        "settings": {
+            "nodeid": "Z",
+            "mode": "fromInput",
+            "reference": "absolute",
+            "space": "parent",
+            "displayName": "Z"
+        },
+        "x": 630,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18fc37fc.8d4148",
+        "type": "set-position",
+        "z": "64e6b055.b1547",
+        "settings": {
+            "nodeid": "X",
+            "mode": "fromInput",
+            "reference": "absolute",
+            "space": "parent",
+            "displayName": "X"
+        },
+        "x": 630,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d724bc67.87b0e",
+        "type": "set-position",
+        "z": "64e6b055.b1547",
+        "settings": {
+            "nodeid": "Y",
+            "mode": "fromInput",
+            "reference": "absolute",
+            "space": "parent",
+            "displayName": "Y"
+        },
+        "x": 630,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6be29c8c.a32944",
+        "type": "mqtt in",
+        "z": "64e6b055.b1547",
+        "name": "",
+        "topic": "CNC_digital_twin/mcoordinates",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "c065e0e7.41d95",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "96a3d375.5686b"
+            ]
+        ]
+    },
+    {
+        "id": "96a3d375.5686b",
+        "type": "change",
+        "z": "64e6b055.b1547",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "7b31aef6.6dc17",
+                "1314ebf6.1c54c4",
+                "165f2b76.c293b5"
+            ]
+        ]
+    },
+    {
+        "id": "7b31aef6.6dc17",
+        "type": "change",
+        "z": "64e6b055.b1547",
+        "name": "Conversion for X",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"x\":payload.x,\"y\":30,\"z\":-200}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 300,
+        "wires": [
+            [
+                "18fc37fc.8d4148"
+            ]
+        ]
+    },
+    {
+        "id": "1314ebf6.1c54c4",
+        "type": "change",
+        "z": "64e6b055.b1547",
+        "name": "Conversion for Y",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"x\":0,\"y\":payload.y,\"z\":0}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 360,
+        "wires": [
+            [
+                "d724bc67.87b0e"
+            ]
+        ]
+    },
+    {
+        "id": "165f2b76.c293b5",
+        "type": "change",
+        "z": "64e6b055.b1547",
+        "name": "Conversion for Z",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"x\":0,\"y\":0,\"z\":payload.z}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 420,
+        "wires": [
+            [
+                "fc77930d.0ec7d"
+            ]
+        ]
+    },
+    {
+        "id": "36fdce6.7d7d332",
+        "type": "comment",
+        "z": "64e6b055.b1547",
+        "name": "CNC mozgatás",
+        "info": "",
+        "x": 110,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "368f6716.fb75c8",
+        "type": "comment",
+        "z": "64e6b055.b1547",
+        "name": "Kirajzolás",
+        "info": "",
+        "x": 80,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "2954c868.c896e8",
+        "type": "add-light",
+        "z": "64e6b055.b1547",
+        "settings": {
+            "create": "init",
+            "options": {
+                "position": {
+                    "x": 300,
+                    "y": 1000,
+                    "z": 500
+                },
+                "orientation": {
+                    "w": 1,
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                },
+                "diffuse": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                },
+                "specular": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                },
+                "range": {
+                    "inner_angle": 180,
+                    "outer_angle": 180,
+                    "falloff": 180
+                },
+                "attenuation": {
+                    "range": 5000,
+                    "constant": 1,
+                    "linear": 0.0009,
+                    "quadratic": 0.000003
+                },
+                "direction": {
+                    "x": 0,
+                    "y": -1,
+                    "z": 0
+                },
+                "autophysical": false,
+                "physical": {
+                    "raycast": false
+                }
+            }
+        },
+        "x": 200,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "189525cc.7a918a",
+        "type": "add-light",
+        "z": "64e6b055.b1547",
+        "settings": {
+            "create": "init",
+            "options": {
+                "position": {
+                    "x": 300,
+                    "y": 1000,
+                    "z": 500
+                },
+                "orientation": {
+                    "w": 1,
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                },
+                "diffuse": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                },
+                "specular": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                },
+                "range": {
+                    "inner_angle": 180,
+                    "outer_angle": 180,
+                    "falloff": 180
+                },
+                "attenuation": {
+                    "range": 5000,
+                    "constant": 1,
+                    "linear": 0.0009,
+                    "quadratic": 0.000003
+                },
+                "direction": {
+                    "x": 0,
+                    "y": -1,
+                    "z": 0
+                },
+                "autophysical": false,
+                "physical": {
+                    "raycast": false
+                }
+            }
+        },
+        "x": 340,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8a7db154.57391",
+        "type": "debug",
+        "z": "64e6b055.b1547",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c065e0e7.41d95",
+        "type": "mqtt-broker",
+        "name": "maxwhere",
+        "broker": "mqtts://mqtt.maxwhere.com",
+        "port": "8883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
